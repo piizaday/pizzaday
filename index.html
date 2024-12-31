@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Day</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            background-image: url('pizza.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 10px 0;
+            text-align: center;
+            position: relative;
+            width: 100%;
+            z-index: 10;
+        }
+
+        header h1 {
+            font-size: 2em;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Duas colunas */
+            gap: 10px; /* Espaço entre os quadros */
+            padding: 20px;
+            width: 100%;
+            height: auto; /* Ajusta a altura automaticamente */
+        }
+
+        .quadro {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+            height: 300px; /* Aumentei a altura para deixá-los mais altos */
+            position: relative;
+        }
+
+        .quadro:hover {
+            transform: scale(1.05); /* Destaca o quadro ao passar o mouse */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra mais intensa */
+        }
+
+        .quadro img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .footer-bar {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .footer-bar a {
+            font-size: 20px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .footer-bar a:hover {
+            color: #ff6347;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Pizza Day</h1>
+    </header>
+
+    <div class="container">
+        <a href="about.html" class="quadro">
+            <img src="pizzaabout.jpeg" alt="Sobre o Projeto">
+        </a>
+        <a href="pizza dex.html" class="quadro">
+            <img src="pizzadex.jpg" alt="DEX">
+        </a>
+        <a href="pizza receitas.html" class="quadro">
+            <img src="pizzareceita.jpeg" alt="Receitas">
+        </a>
+        <a href="pizzasocial.html" class="quadro">
+            <img src="pizzasocial.jpg" alt="Fotos de Pizzas">
+        </a>
+    </div>
+
+    <div class="footer-bar">
+        <a href="https://t.me/piizaday" target="_blank">📱 Telegram</a>
+        <a href="https://x.com/piizzaday" target="_blank">🐦 X</a>
+    </div>
+</body>
+</html>

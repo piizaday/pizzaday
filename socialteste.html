@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Social</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        /* Barra superior */
+        .top-bar {
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(90deg, #ffb347, #ffcc33);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .top-bar h1 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .top-bar-icons {
+            position: absolute;
+            right: 15px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .top-bar-icons span {
+            cursor: pointer;
+        }
+
+        /* Barra inferior */
+        .bottom-bar {
+            width: 100%;
+            height: 60px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #ddd;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            padding: 0 15px;
+        }
+
+        .bottom-bar .icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Postagem */
+        .post-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 10px auto;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-container img {
+            width: 100%;
+            max-width: 500px;
+            max-height: 500px;
+            object-fit: contain;
+            margin: auto;
+            display: block;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            align-items: center;
+        }
+
+        .post-actions .icon {
+            cursor: pointer;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 500px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .modal-content img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .modal-content textarea {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .modal-content button {
+            padding: 10px;
+            font-size: 14px;
+            color: white;
+            background-color: #ff4500;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .modal-content button:hover {
+            background-color: #e03d00;
+        }
+
+        /* Live Content */
+        .live-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .live-video {
+            width: 100%;
+            height: 350px;
+            background-color: #000;
+            margin-bottom: 20px;
+        }
+
+        .chat-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        .chat-message {
+            padding: 8px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+
+        .send-btn {
+            padding: 10px;
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Modal Live */
+        .modal-live {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-live-content {
+            background-color: white;
+            padding: 20px;
+            width: 300px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-live-content button {
+            background-color: #ff4500;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra superior -->
+    <div class="top-bar">
+        <h1>Pizza Social</h1>
+        <div class="top-bar-icons">
+            <span>🔔</span>
+            <span>⚙️</span>
+        </div>
+    </div>
+
+    <!-- Link de voltar ao início -->
+    <a href="pizza%20day.html" id="home-link">
+        <span class="icon">🏠</span> Voltar ao início
+    </a>
+
+    <!-- Conteúdo principal -->
+    <div id="main-content">
+        <div class="live-container">
+            <div class="live-video" id="live-video">
+                <video id="videoElement" width="100%" height="350" autoplay></video>
+            </div>
+
+            <!-- Chat -->
+            <div class="chat-box" id="chat-box"></div>
+
+            <button id="send-btn" class="send-btn">Enviar Presente</button>
+        </div>
+    </div>
+
+    <!-- Barra inferior -->
+    <div class="bottom-bar">
+        <span class="icon home-btn">🏠</span>
+        <span class="icon camera-btn">📷</span>
+        <span class="icon connect-wallet">Connect Wallet</span>
+    </div>
+
+    <!-- Modal Live -->
+    <div class="modal-live" id="modal-live">
+        <div class="modal-live-content">
+            <button id="start-live">Iniciar Live</button>
+            <button id="end-live">Encerrar Live</button>
+        </div>
+    </div>
+
+    <script>
+        const cameraBtn = document.querySelector('.camera-btn');
+        const homeBtn = document.querySelector('.home-btn');
+        const connectWalletBtn = document.querySelector('.connect-wallet');
+        const modalLive = document.getElementById('modal-live');
+        const startLiveBtn = document.getElementById('start-live');
+        const endLiveBtn = document.getElementById('end-live');
+        const videoElement = document.getElementById('videoElement');
+        const chatBox = document.getElementById('chat-box');
+        const sendBtn = document.getElementById('send-btn');
+
+        // Handle video streaming and live start
+        cameraBtn.addEventListener('click', () => {
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                .then((stream) => {
+                    videoElement.srcObject = stream;
+                    modalLive.style.display = 'flex';
+                })
+                .catch((err) => {
+                    alert('Erro ao acessar a câmera e microfone: ' + err);
+                });
+        });
+
+        // Start live
+        startLiveBtn.addEventListener('click', () => {
+            modalLive.style.display = 'none';
+            alert('Live iniciada!');
+        });
+
+        // End live
+        endLiveBtn.addEventListener('click', () => {
+            modalLive.style.display = 'none';
+            alert('Live encerrada!');
+        });
+
+        // Simulate sending a gift in tokens
+        sendBtn.addEventListener('click', () => {
+            const tokens = [1, 5, 10, 20, 100];
+            const randomTokens = tokens[Math.floor(Math.random() * tokens.length)];
+            const message = `Enviando ${randomTokens} tokens para a live!`;
+            const chatMessage = document.createElement('div');
+            chatMessage.classList.add('chat-message');
+            chatMessage.textContent = message;
+            chatBox.appendChild(chatMessage);
+        });
+
+        // Mock wallet connection
+        connectWalletBtn.addEventListener('click', () => {
+            alert('Carteira conectada!');
+        });
+
+        // Navigate to homepage
+        homeBtn.addEventListener('click', () => {
+            window.location.href = 'pizza%20day.html';
+        });
+    </script>
+
+</body>
+</html>

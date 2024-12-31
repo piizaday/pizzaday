@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Pizza Day</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('pizza1.jpg'); /* Add your image here */
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            overflow: auto; /* Allows scrolling */
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+            z-index: 1; /* Ensures it overlays the image */
+        }
+
+        .dynamic-title {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #FFD700;
+            text-align: center;
+            animation: bounceToTop 3s ease-in-out forwards, glow 1s infinite alternate;
+            position: absolute;
+            width: 100%;
+            top: 20px;
+            z-index: 2;
+        }
+
+        @keyframes bounceToTop {
+            0% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(50vh);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700;
+            }
+            to {
+                text-shadow: 0 0 20px #FFA500, 0 0 30px #FFA500;
+            }
+        }
+
+        .content {
+            margin-top: 120px;
+            padding: 20px;
+            text-align: left;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            z-index: 2;
+            background-color: rgba(0, 0, 0, 0.7); /* Darker background behind the text */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .content h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .roadmap {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            max-width: 800px;
+            z-index: 2;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .roadmap ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .roadmap ul li {
+            margin: 10px 0;
+            font-size: 1.2rem;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .roadmap ul li:before {
+            content: '\2713';
+            position: absolute;
+            left: 0;
+            color: #FFD700;
+        }
+
+        .roadmap ul li.incomplete:before {
+            content: '\25CB';
+            color: #888;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: #FFD700;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            color: #fff;
+            border-radius: 5px;
+            z-index: 2;
+        }
+
+        .back-button:hover {
+            background-color: #FFA500;
+        }
+
+        @keyframes closePage {
+            to {
+                transform: rotate(360deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .page-transition {
+            animation: closePage 2s forwards;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div> <!-- Semi-transparent overlay for better readability -->
+
+    <!-- Button to go back to the homepage -->
+    <button class="back-button" onclick="window.location.href = 'index.html';">Back to Homepage</button>
+
+    <div class="dynamic-title">Pizza Day</div>
+
+    <div class="content">
+        <h2>About Pizza Day</h2>
+        <p><strong>Pizza Day</strong> was inspired by the first Bitcoin transaction in history on May 22, 2010. On this day, two pizzas were purchased for 10,000 bitcoins, marking an important milestone in the world of cryptocurrencies and the birth of a meme.</p>
+
+        <p><strong>Pizza Day</strong> goes beyond the simple meme. Our goal is to build the largest crypto community in the world, providing interactivity through our platform. Here, participants can engage in competitions, win prizes, and at the same time, learn more about the world of cryptocurrencies.</p>
+
+        <p>Additionally, <strong>Pizza Day</strong> offers delicious pizza recipes for you to try at home, and soon we will launch our DEX. In this exchange, users will be able to perform token swaps, staking, lending, liquidity pools, and much more.</p>
+    </div>
+
+    <div class="roadmap">
+        <h2>Roadmap</h2>
+        <h3>Phase 1</h3>
+        <ul>
+            <li>Building the community on X and Telegram</li>
+            <li>Website development</li>
+            <li>Token creation</li>
+            <li class="incomplete">Listing on CoinMarketCap and CoinGecko</li>
+        </ul>
+        <h3>Phase 2</h3>
+        <ul>
+            <li class="incomplete">Enhancement of Social Pizza</li>
+            <li class="incomplete">Creation of the Pizza Championship on Social Pizza</li>
+            <li class="incomplete">DEX Launch</li>
+        </ul>
+    </div>
+
+    <script>
+        // Page transition when unloading
+        window.addEventListener('beforeunload', function () {
+            document.body.classList.add('page-transition');
+        });
+    </script>
+
+</body>
+</html>

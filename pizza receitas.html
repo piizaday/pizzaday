@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Recipes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ff6347;
+            color: white;
+            padding: 15px;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 24px;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 15px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .profile-circle {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #ff6347;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .form-container {
+            display: none;
+            position: fixed;
+            top: 70px;
+            right: 15px;
+            width: 300px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+
+        .form-container input, .form-container textarea, .form-container button {
+            width: calc(100% - 20px);
+            margin: 10px 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-container button {
+            background-color: #ff6347;
+            color: white;
+            cursor: pointer;
+        }
+
+        .recipe-list {
+            width: 90%;
+            max-width: 1200px;
+            margin-top: 100px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .recipe-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recipe-card img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .recipe-card h3 {
+            margin: 10px 0;
+        }
+
+        .recipe-details {
+            display: none;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+        }
+
+        #back-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #back-button a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .recipe-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .recipe-card {
+            text-align: center;
+            padding: 10px;
+            background-color: #ff6347;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .recipe-card:hover {
+            background-color: #ff4500;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <span class="back-button" onclick="window.location.href='index.html'">&larr;</span>
+        <h1>Pizza Recipes</h1>
+    </header>
+
+    <!-- Botão de Perfil -->
+    <div class="profile-circle" onclick="toggleForm()">+</div>
+
+    <!-- Formulário para criar receita -->
+    <div class="form-container" id="form-container">
+        <input type="file" id="pizza-image" accept="image/*" required>
+        <input type="text" id="recipe-title" placeholder="Pizza Name" required>
+        <textarea id="ingredients" placeholder="Ingredients" required></textarea>
+        <textarea id="method" placeholder="Method" required></textarea>
+        <button id="post-recipe" onclick="postRecipe()">Post Recipe</button>
+    </div>
+
+    <!-- Lista de receitas -->
+    <div class="recipe-list" id="recipe-list">
+        <!-- As receitas serão carregadas aqui -->
+    </div>
+
+    <script>
+        // Função para mostrar o formulário de postagem
+        function toggleForm() {
+            const form = document.getElementById('form-container');
+            form.style.display = form.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Função para postar a receita
+        function postRecipe() {
+            const title = document.getElementById('recipe-title').value;
+            const ingredients = document.getElementById('ingredients').value;
+            const method = document.getElementById('method').value;
+            const image = document.getElementById('pizza-image').files[0];
+
+            if (title && ingredients && method && image) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageUrl = e.target.result;
+
+                    const recipeList = document.getElementById('recipe-list');
+
+                    // Criar um novo card de receita
+                    const recipeCard = document.createElement('div');
+                    recipeCard.className = 'recipe-card';
+                    recipeCard.onclick = function() {
+                        showRecipeDetails(title, ingredients, method, imageUrl);
+                    };
+
+                    // Criar o conteúdo do card
+                    const recipeTitle = document.createElement('h3');
+                    recipeTitle.textContent = title;
+
+                    const recipeImage = document.createElement('img');
+                    recipeImage.src = imageUrl;
+
+                    recipeCard.appendChild(recipeImage);
+                    recipeCard.appendChild(recipeTitle);
+
+                    // Adicionar o card na lista
+                    recipeList.appendChild(recipeCard);
+
+                    // Limpar o formulário
+                    document.getElementById('pizza-image').value = '';
+                    document.getElementById('recipe-title').value = '';
+                    document.getElementById('ingredients').value = '';
+                    document.getElementById('method').value = '';
+                    toggleForm();
+                };
+
+                reader.readAsDataURL(image);
+            } else {
+                alert('Please fill in all fields');
+            }
+        }
+
+        // Função para mostrar os detalhes da receita
+        function showRecipeDetails(title, ingredients, method, imageUrl) {
+            const recipeDetails = document.createElement('div');
+            recipeDetails.className = 'recipe-details';
+
+            const recipeTitle = document.createElement('h2');
+            recipeTitle.textContent = title;
+            recipeDetails.appendChild(recipeTitle);
+
+            const ingredientsList = document.createElement('ul');
+            const ingredientsArray = ingredients.split('\n');
+            ingredientsArray.forEach(function(ingredient) {
+                const li = document.createElement('li');
+                li.textContent = ingredient;
+                ingredientsList.appendChild(li);
+            });
+            recipeDetails.appendChild(ingredientsList);
+
+            const methodText = document.createElement('p');
+            methodText.textContent = method;
+            recipeDetails.appendChild(methodText);
+
+            const image = document.createElement('img');
+            image.src = imageUrl;
+            recipeDetails.appendChild(image);
+
+            const backButton = document.createElement('button');
+            backButton.textContent = 'Back to List';
+            backButton.onclick = function() {
+                recipeDetails.remove();
+            };
+            recipeDetails.appendChild(backButton);
+
+            document.body.appendChild(recipeDetails);
+        }
+    </script>
+</body>
+</html>
