@@ -111,6 +111,16 @@
         .chat-input button:hover {
             background: #f4a261;
         }
+        @media (max-width: 768px) {
+            .video-chat {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            video, .chat {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -144,7 +154,8 @@
         const liveToggleButton = document.getElementById('live-toggle-button');
 
         let liveStream = null;
-        
+        let liveUsers = []; // Array to store users streaming
+
         function toggleLive() {
             if (!liveStream) {
                 navigator.mediaDevices.getUserMedia({ video: true, audio: true })
@@ -153,7 +164,10 @@
                         liveVideo.srcObject = stream;
                         videoChat.style.display = 'flex';
                         liveToggleButton.textContent = '⏹ End Live';
-                        // Add logic to broadcast the live
+
+                        // Add logic to broadcast the live stream and update users
+                        liveUsers.push({ id: Date.now(), name: `User ${liveUsers.length + 1}` });
+                        updateLiveUsers();
                     })
                     .catch(err => {
                         console.error('Error accessing camera/microphone:', err);
@@ -165,7 +179,24 @@
                 liveVideo.srcObject = null;
                 videoChat.style.display = 'none';
                 liveToggleButton.textContent = '📷 Start Live';
+
+                // Clear users list
+                liveUsers = [];
+                updateLiveUsers();
             }
+        }
+
+        function updateLiveUsers() {
+            liveGrid.innerHTML = '';
+            liveUsers.forEach(user => {
+                const liveCard = document.createElement('div');
+                liveCard.className = 'live-card';
+                liveCard.innerHTML = `
+                    <img src="https://placekitten.com/200/200" alt="User ${user.name}">
+                    <p>${user.name}</p>
+                `;
+                liveGrid.appendChild(liveCard);
+            });
         }
 
         chatInput.addEventListener('keydown', (e) => {
@@ -182,4 +213,5 @@
     </script>
 </body>
 </html>
+
 
