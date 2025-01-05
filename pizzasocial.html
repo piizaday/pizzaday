@@ -3,313 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pizza Social</title>
+    <title>Pizza Lives</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-        }
-
-        /* Barra superior */
-        .top-bar {
-            width: 100%;
-            height: 50px;
-            background: linear-gradient(90deg, #ffb347, #ffcc33);
+            margin: 0;
+            padding: 0;
+            background-color: #1d1d1d;
             color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
         }
-
-        .top-bar h1 {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .top-bar-icons {
-            position: absolute;
-            right: 15px;
-            display: flex;
-            gap: 15px;
-        }
-
-        .top-bar-icons span {
-            cursor: pointer;
-        }
-
-        /* Barra inferior */
-        .bottom-bar {
-            width: 100%;
-            height: 60px;
-            background-color: #fff;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid #ddd;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            padding: 0 15px;
-        }
-
-        .bottom-bar .icon {
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        /* Postagem */
-        .post-container {
-            width: 100%;
-            max-width: 600px;
-            margin: 10px auto;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .post-container img {
-            width: 100%;
-            max-width: 500px;
-            max-height: 500px;
-            object-fit: contain;
-            margin: auto;
-            display: block;
-        }
-
-        .post-actions {
-            display: flex;
-            justify-content: space-between;
+        header {
+            background: #333;
             padding: 10px;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-        }
-
-        .post-actions .icon {
-            cursor: pointer;
-        }
-
-        /* Modal */
-        .modal {
-            position: fixed;
+            position: sticky;
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
             z-index: 1000;
         }
-
-        .modal-content {
-            width: 90%;
-            max-width: 500px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        header h1 {
+            color: #ffd700;
+            margin: 0;
+            font-size: 1.8rem;
+            text-align: center;
+            flex-grow: 1;
         }
-
-        .modal-content img {
-            width: 100%;
-            max-height: 300px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .modal-content textarea {
-            width: 100%;
-            height: 80px;
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .modal-content button {
-            padding: 10px;
-            font-size: 14px;
-            color: white;
-            background-color: #ff4500;
+        header button {
+            background: #e76f51;
             border: none;
-            border-radius: 4px;
+            padding: 10px 20px;
+            color: white;
+            font-size: 1rem;
+            border-radius: 5px;
             cursor: pointer;
         }
-
-        .modal-content button:hover {
-            background-color: #e03d00;
+        header button:hover {
+            background: #f4a261;
         }
-
-        /* Mensagem de status */
-        .status-message {
-            position: fixed;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #4CAF50;
-            color: white;
+        .live-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 10px;
+        }
+        .live-grid .live-card {
+            background: #222;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .live-grid .live-card:hover {
+            transform: scale(1.05);
+        }
+        .live-grid .live-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .video-chat {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 10px;
+        }
+        video {
+            width: 70%;
+            border-radius: 10px;
+        }
+        .chat {
+            width: 28%;
+            background: #333;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            background: #222;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .chat-input {
+            display: flex;
+            align-items: center;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .chat-input button {
             padding: 10px 20px;
-            border-radius: 4px;
-            display: none;
-            z-index: 2000;
+            background: #e76f51;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .chat-input button:hover {
+            background: #f4a261;
         }
     </style>
 </head>
 <body>
+    <header>
+        <button id="live-toggle-button" onclick="toggleLive()">📷 Start Live</button>
+        <h1>Pizza Lives</h1>
+        <button onclick="window.location.href='index.html';">Home</button>
+    </header>
 
-    <!-- Barra superior -->
-    <div class="top-bar">
-        <h1>Pizza Social</h1>
-        <div class="top-bar-icons">
-            <span>🔔</span>
-            <span>⚙️</span>
-        </div>
+    <div class="live-grid" id="live-grid">
+        <!-- Live cards will be dynamically added here -->
     </div>
 
-    <!-- Mensagem de status -->
-    <div id="status-message" class="status-message">Publicado com sucesso!</div>
-
-    <!-- Conteúdo principal -->
-    <div id="main-content">
-        <div class="post-container">
-            <img src="example.jpg" alt="Example post">
-            <div class="post-actions">
-                <span class="icon">❤️</span>
-                <span class="icon">💬</span>
+    <div id="video-chat" class="video-chat" style="display: none;">
+        <video id="live-video" autoplay muted></video>
+        <div class="chat">
+            <div id="chat-messages" class="chat-messages"></div>
+            <div class="chat-input">
+                <input id="chat-input" type="text" placeholder="Type your message...">
+                <button id="emoji-button">😊</button>
             </div>
         </div>
     </div>
 
-    <!-- Barra inferior -->
-    <div class="bottom-bar">
-        <span class="icon home-btn">🏠</span>
-        <span class="icon camera-btn">📷</span>
-        <span class="icon connect-wallet">Connect Wallet</span>
-    </div>
-
-    <!-- Modal de postagem -->
-    <div class="modal" id="post-modal">
-        <div class="modal-content">
-            <input type="file" id="file-input" style="display:none;" accept="image/*">
-            <img id="preview-image" src="" alt="Preview">
-            <textarea id="caption" placeholder="Write a caption (max 200 characters)"></textarea>
-            <button id="publish-button">Publish</button>
-        </div>
-    </div>
-
     <script>
-        const cameraBtn = document.querySelector('.camera-btn');
-        const homeBtn = document.querySelector('.home-btn');
-        const connectWalletBtn = document.querySelector('.connect-wallet');
-        const modal = document.getElementById('post-modal');
-        const publishButton = document.getElementById('publish-button');
-        const fileInput = document.getElementById('file-input');
-        const previewImage = document.getElementById('preview-image');
-        const statusMessage = document.getElementById('status-message');
-        const captionInput = document.getElementById('caption');
+        const liveGrid = document.getElementById('live-grid');
+        const videoChat = document.getElementById('video-chat');
+        const liveVideo = document.getElementById('live-video');
+        const chatMessages = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        const liveToggleButton = document.getElementById('live-toggle-button');
 
-        // Open file selector
-        cameraBtn.addEventListener('click', () => {
-            fileInput.click();
-        });
-
-        // Preview selected image
-        fileInput.addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = () => {
-                    previewImage.src = reader.result;
-                    modal.style.display = 'flex';
-                };
-                reader.readAsDataURL(file);
+        let liveStream = null;
+        
+        function toggleLive() {
+            if (!liveStream) {
+                navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                    .then(stream => {
+                        liveStream = stream;
+                        liveVideo.srcObject = stream;
+                        videoChat.style.display = 'flex';
+                        liveToggleButton.textContent = '⏹ End Live';
+                        // Add logic to broadcast the live
+                    })
+                    .catch(err => {
+                        console.error('Error accessing camera/microphone:', err);
+                        alert('Unable to access camera/microphone.');
+                    });
+            } else {
+                liveStream.getTracks().forEach(track => track.stop());
+                liveStream = null;
+                liveVideo.srcObject = null;
+                videoChat.style.display = 'none';
+                liveToggleButton.textContent = '📷 Start Live';
             }
-        });
+        }
 
-        // Close modal
-        modal.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-                fileInput.value = "";
-                previewImage.src = "";
-                captionInput.value = "";
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && chatInput.value.trim()) {
+                const message = document.createElement('div');
+                message.textContent = chatInput.value;
+                message.style.padding = '5px';
+                message.style.borderBottom = '1px solid #444';
+                chatMessages.appendChild(message);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                chatInput.value = '';
             }
-        });
-
-        // Mock publish action
-        publishButton.addEventListener('click', () => {
-            if (!previewImage.src) {
-                alert('Selecione uma imagem para postar.');
-                return;
-            }
-
-            // Criar um novo container de postagens
-            const postContainer = document.createElement('div');
-            postContainer.className = 'post-container';
-
-            // Adicionar a imagem ao container
-            const img = document.createElement('img');
-            img.src = previewImage.src;
-            img.alt = 'Post Image';
-            postContainer.appendChild(img);
-
-            // Adicionar a legenda ao container
-            const captionText = captionInput.value.trim();
-            if (captionText) {
-                const caption = document.createElement('p');
-                caption.textContent = captionText;
-                caption.style.padding = '10px';
-                postContainer.appendChild(caption);
-            }
-
-            // Adicionar as ações da postagem
-            const postActions = document.createElement('div');
-            postActions.className = 'post-actions';
-            postActions.innerHTML = `
-                <span class="icon">❤️</span>
-                <span class="icon">💬</span>
-            `;
-            postContainer.appendChild(postActions);
-
-            // Adicionar a nova postagem ao conteúdo principal
-            const mainContent = document.getElementById('main-content');
-            mainContent.insertBefore(postContainer, mainContent.firstChild);
-
-            // Mostrar mensagem de status
-            statusMessage.textContent = 'Publicado com sucesso!';
-            statusMessage.style.display = 'block';
-            setTimeout(() => {
-                statusMessage.style.display = 'none';
-            }, 2000);
-
-            // Fechar modal e limpar campos
-            modal.style.display = 'none';
-            fileInput.value = "";
-            previewImage.src = "";
-            captionInput.value = "";
-        });
-
-        // Navigate to homepage
-        homeBtn.addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
-
-        // Mock wallet connection
-        connectWalletBtn.addEventListener('click', () => {
-            alert('Wallet connected!');
         });
     </script>
-
 </body>
 </html>
+
