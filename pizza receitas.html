@@ -197,6 +197,7 @@
                     const imageUrl = e.target.result;
 
                     const recipeList = document.getElementById('recipe-list');
+                    const recipes = JSON.parse(localStorage.getItem('recipes')) || [];
 
                     // Criar um novo card de receita
                     const recipeCard = document.createElement('div');
@@ -217,6 +218,10 @@
 
                     // Adicionar o card na lista
                     recipeList.appendChild(recipeCard);
+
+                    // Salvar receita no armazenamento local
+                    recipes.push({ title, ingredients, method, imageUrl });
+                    localStorage.setItem('recipes', JSON.stringify(recipes));
 
                     // Limpar o formulário
                     document.getElementById('pizza-image').value = '';
@@ -267,6 +272,31 @@
 
             document.body.appendChild(recipeDetails);
         }
+
+        // Carregar receitas do arquivo JSON no servidor
+        window.onload = function() {
+            const recipes = JSON.parse(localStorage.getItem('recipes')) || [];
+            const recipeList = document.getElementById('recipe-list');
+            recipes.forEach(function(recipe) {
+                const recipeCard = document.createElement('div');
+                recipeCard.className = 'recipe-card';
+                recipeCard.onclick = function() {
+                    showRecipeDetails(recipe.title, recipe.ingredients, recipe.method, recipe.imageUrl);
+                };
+
+                const recipeTitle = document.createElement('h3');
+                recipeTitle.textContent = recipe.title;
+
+                const recipeImage = document.createElement('img');
+                recipeImage.src = recipe.imageUrl;
+
+                recipeCard.appendChild(recipeImage);
+                recipeCard.appendChild(recipeTitle);
+
+                recipeList.appendChild(recipeCard);
+            });
+        };
     </script>
 </body>
 </html>
+
