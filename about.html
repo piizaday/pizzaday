@@ -56,7 +56,7 @@
         .image-section {
             width: 100%;
             height: 100vh;
-            background-image: url('pizza.jpg'); /* Add your background image here */
+            background-image: url('pizza.jpg'); /* Adicione sua imagem de fundo aqui */
             background-size: cover;
             background-position: center;
             display: flex;
@@ -88,6 +88,51 @@
             padding: 20px;
             text-align: center;
         }
+
+        .contract-section {
+            margin-top: 50px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .contract-section h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .contract-text {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            white-space: pre-wrap; /* Permite a exibição correta do texto com quebras de linha */
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .copy-button {
+            font-size: 18px;
+            background-color: #f39c12;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .copy-button:hover {
+            background-color: #e67e22;
+        }
+
+        .copy-button:active {
+            background-color: #d35400;
+        }
+
+        .copy-button i {
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
@@ -110,8 +155,41 @@
         </p>
     </div>
 
+    <div class="contract-section">
+        <h2>Contract</h2>
+        <div class="contract-text" id="contractText">
+            --- subistituir pelo contrato ---
+        </div>
+        <button class="copy-button" onclick="copyContract()">
+            <i class="fa fa-clipboard"></i> Copy Contract
+        </button>
+    </div>
+
     <footer>
         &copy; 2025 Pizza Day. All rights reserved.
     </footer>
+
+    <!-- Font Awesome for clipboard icon (ou use um ícone personalizado) -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <script>
+        function copyContract() {
+            // Obtém o texto do contrato
+            var contractText = document.getElementById("contractText").textContent;
+
+            // Cria um elemento de texto temporário para copiar
+            var tempInput = document.createElement("input");
+            document.body.appendChild(tempInput);
+            tempInput.value = contractText;
+            tempInput.select();
+            document.execCommand("copy");
+
+            // Remove o elemento temporário
+            document.body.removeChild(tempInput);
+
+            // Alerta para o usuário
+            alert("Contract copied to clipboard!");
+        }
+    </script>
 </body>
 </html>
