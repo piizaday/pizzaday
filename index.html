@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -161,6 +161,27 @@
             max-width: 100%;
             height: auto;
         }
+
+        /* Responsividade */
+        @media screen and (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr; /* Colocar os quadros em uma coluna */
+            }
+
+            #pizza {
+                width: 100%;
+                height: auto;
+                padding: 10px;
+            }
+
+            header h1 {
+                font-size: 2.5em; /* Ajustar o tamanho da fonte para telas menores */
+            }
+
+            #bitcoin-price {
+                font-size: 1.2em;
+            }
+        }
     </style>
     <script>
         async function fetchBitcoinPrice() {
@@ -186,30 +207,30 @@
     </header>
 
     <div class="container">
-        <a href="https://freebitco.in/?r=5426305" target="_blank" class="quadro">
-            <img src="pizzabitcoin.jpeg" alt="Ganhe Bitcoin">
+        <a href="https://freebitco.in/?r=5426305" class="quadro">
+            <img src="pizzabitcoin.jpeg" alt="Earn Bitcoin">
         </a>
-        <a href="https://claimfreesol.com/mzecI6m3" target="_blank" class="quadro">
-            <img src="clainsolana.jpeg" alt="Ganhe Solana">
+        <a href="https://claimfreesol.com/mzecI6m3" class="quadro">
+            <img src="clainsolana.jpeg" alt="Earn Solana">
         </a>
         <a href="about.html" class="quadro">
-            <img src="about.jpeg" alt="Sobre">
+            <img src="about.jpeg" alt="About">
         </a>
         <a href="portfolio.html" class="quadro">
-            <img src="portifolio.jpeg" alt="Portfólio">
+            <img src="portifolio.jpeg" alt="Portfolio">
         </a>
         <div id="pizza">
-            <a href="pizzaai.html" target="_blank">
-                <img src="pizzaai.png" alt="Pizza Ai">
+            <a href="pizzaai.html">
+                <img src="pizzaai.png" alt="Pizza AI">
             </a>
         </div>
     </div>
 
     <div class="footer-bar">
-        <a href="https://t.me/piizaday" target="_blank" class="telegram"></a>
-        <a href="https://x.com/piizzaday" target="_blank" class="x"></a>
-        <a href="https://www.instagram.com" target="_blank" class="instagram"></a>
-        <a href="https://github.com/piizaday/pizzaday" target="_blank" class="github"></a>
+        <a href="https://t.me/piizaday" class="telegram"></a>
+        <a href="https://x.com/piizzaday" class="x"></a>
+        <a href="https://www.instagram.com" class="instagram"></a>
+        <a href="https://github.com/piizaday/pizzaday" class="github"></a>
     </div>
 </body>
 </html>
