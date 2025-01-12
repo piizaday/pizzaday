@@ -1,102 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pizza AI</title>
-    <style>
-        /* Reset styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Body styles */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-image: url('pizzaai.jpeg'); /* Substitua com o caminho da sua imagem */
-            background-size: contain; /* Ajusta a imagem para caber na tela sem cortar */
-            background-position: center center; /* Centraliza a imagem */
-            background-repeat: no-repeat; /* Evita repetição da imagem */
-            background-attachment: fixed; /* A imagem fica fixa enquanto o conteúdo rola */
-            height: 100vh; /* Garante que a altura da tela seja 100% da altura da janela */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-        }
-
-        /* Header styles */
-        .header {
-            position: absolute;
-            top: 10px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center; /* Centraliza o conteúdo horizontalmente */
-            align-items: center;
-            padding: 0 20px;
-            z-index: 10;
-        }
-
-        .home-button {
-            position: absolute;
-            left: 20px;
-            font-size: 18px;
-            color: white;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .home-button:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-        /* Title styles */
-        .title {
-            font-size: 60px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: white;
-            position: relative;
-            display: inline-block;
-            animation: techEffect 2s infinite;
-        }
-
-        /* Animation for technology effect */
-        @keyframes techEffect {
-            0% {
-                text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.3), 0 0 15px rgba(255, 255, 255, 0.1);
-            }
-            50% {
-                text-shadow: 0 0 20px rgba(0, 255, 255, 1), 0 0 30px rgba(0, 255, 255, 1), 0 0 40px rgba(0, 255, 255, 1);
-            }
-            100% {
-                text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.3), 0 0 15px rgba(255, 255, 255, 0.1);
-            }
-        }
-
-        /* Main content styles */
-        .main-content {
-            margin-top: 100px; /* Ajuste o valor se necessário para espaçar o conteúdo da parte superior */
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pizza IA</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="header">
-        <a href="index.html" class="home-button">Home</a>
-        <h1 class="title">Pizza AI</h1>
-    </div>
+  <header>
+    <h1 id="logo">Pizza <span class="tech">IA</span></h1>
+    <nav>
+      <a href="index.html" class="home-btn">Home</a>
+    </nav>
+  </header>
 
-    <div class="main-content">
-        <!-- Conteúdo adicional abaixo, se necessário -->
-    </div>
+  <main>
+    <section class="description">
+      <h2>Bem-vindo à Pizza IA!</h2>
+      <p>
+        Experimente a nova tecnologia que traduz sua voz para outros idiomas mantendo suas nuances. Teste agora mesmo e compartilhe no WhatsApp!
+      </p>
+    </section>
+
+    <section class="action">
+      <button id="record-btn">🎙️ Gravar Áudio</button>
+      <button id="send-btn" disabled>📤 Enviar para WhatsApp</button>
+    </section>
+
+    <audio id="audio-player" controls hidden></audio>
+  </main>
+
+  <footer>
+    <p>© 2025 Pizza IA | Desenvolvido com 💻 e 🍕</p>
+  </footer>
 </body>
 </html>
