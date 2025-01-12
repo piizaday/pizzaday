@@ -1,7 +1,14 @@
-/* Função para gravar áudio */
+const recordBtn = document.getElementById("record-btn");
+const sendBtn = document.getElementById("send-btn");
+const audioPlayer = document.getElementById("audio-player");
+
+let mediaRecorder;
+let audioChunks = [];
+
 recordBtn.addEventListener("click", async () => {
   if (!mediaRecorder) {
     try {
+      // Solicita permissão para usar o microfone
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorder = new MediaRecorder(stream);
 
@@ -16,23 +23,22 @@ recordBtn.addEventListener("click", async () => {
         audioPlayer.hidden = false;
         sendBtn.disabled = false;
 
-        // Enviar para WhatsApp (simulação)
         sendBtn.onclick = () => {
-          const link = `https://wa.me/?text=Olha o meu áudio traduzido pelo Pizza IA! ${audioUrl}`;
+          const link = `https://wa.me/?text=Check out my audio translated by Pizza AI! ${audioUrl}`;
           window.open(link, "_blank");
         };
       };
     } catch (error) {
-      alert("Erro ao acessar o microfone: " + error.message);
+      alert("Error accessing the microphone: " + error.message);
     }
   }
 
   if (mediaRecorder.state === "inactive") {
     audioChunks = [];
     mediaRecorder.start();
-    recordBtn.textContent = "⏹️ Parar Gravação";
+    recordBtn.textContent = "⏹️ Stop Recording";
   } else {
     mediaRecorder.stop();
-    recordBtn.textContent = "🎙️ Gravar Áudio";
+    recordBtn.textContent = "🎙️ Record Audio";
   }
 });
