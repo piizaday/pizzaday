@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza DEX</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f4e5;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #ff4500;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .swap-box {
+            background: #fff8e1;
+            border: 2px solid #ffa500;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .swap-box label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .swap-box select,
+        .swap-box input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #ffa500;
+            border-radius: 5px;
+        }
+
+        .swap-button {
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1em;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .swap-button:hover {
+            background-color: #e03e00;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Pizza DEX 🍕
+    </header>
+    <div class="container">
+        <div class="swap-box">
+            <label for="from-token">From:</label>
+            <select id="from-token">
+                <option value="SOL">SOL</option>
+                <option value="USDC">USDC</option>
+                <option value="BTC">BTC</option>
+            </select>
+
+            <label for="from-amount">Amount:</label>
+            <input type="number" id="from-amount" placeholder="Enter amount">
+
+            <label for="to-token">To:</label>
+            <select id="to-token">
+                <option value="USDC">USDC</option>
+                <option value="SOL">SOL</option>
+                <option value="ETH">ETH</option>
+            </select>
+
+            <button class="swap-button" onclick="performSwap()">Swap</button>
+            <button class="swap-button" onclick="connectWallet()">Connect Wallet</button>
+        </div>
+    </div>
+    <footer>
+        Powered by Solana DEX APIs
+    </footer>
+
+    <script src="https://unpkg.com/@solana/web3.js@^1.75.0"></script>
+    <script src="https://unpkg.com/@project-serum/anchor"></script>
+
+    <script>
+        let walletPublicKey = null;
+
+        async function connectWallet() {
+            if (window.solana && window.solana.isPhantom) {
+                try {
+                    const response = await window.solana.connect();
+                    walletPublicKey = response.publicKey.toString();
+                    alert(`Connected to wallet: ${walletPublicKey}`);
+                } catch (error) {
+                    console.error(error);
+                    alert('Failed to connect wallet.');
+                }
+            } else {
+                alert('Phantom Wallet not found. Please install it.');
+            }
+        }
+
+        async function performSwap() {
+            if (!walletPublicKey) {
+                alert('Please connect your wallet first.');
+                return;
+            }
+
+            const fromToken = document.getElementById('from-token').value;
+            const toToken = document.getElementById('to-token').value;
+            const amount = document.getElementById('from-amount').value;
+
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid amount.');
+                return;
+            }
+
+            const teamWallet = "sba1PWYQfFGgxKGdwDumezPs3ZNpAUNk5ManXPmZU1w"; // Replace with your team's wallet address
+            const feePercentage = 0.1; // 0.1% fee
+
+            try {
+                const feeAmount = amount * (feePercentage / 100);
+                const swapAmount = amount - feeAmount;
+
+                const response = await fetch('https://quote-api.jup.ag/v1/quote', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        inputMint: fromToken,
+                        outputMint: toToken,
+                        amount: swapAmount * 10 ** 6, // Adjust for token precision
+                        slippage: 1, // Tolerated slippage in %
+                    }),
+                });
+
+                const data = await response.json();
+                console.log(data);
+
+                if (data.success) {
+                    alert(`Swap successful! Transaction ID: ${data.txId}`);
+
+                    // Send fee to team wallet
+                    console.log(`Sending ${feeAmount} ${fromToken} to team wallet: ${teamWallet}`);
+                } else {
+                    alert('Swap failed: ' + data.error);
+                }
+            } catch (error) {
+                console.error(error);
+                alert('An error occurred during the swap.');
+            }
+        }
+    </script>
+</body>
+</html>
