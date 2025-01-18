@@ -4,42 +4,156 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizza DEX</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f4e5;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ff4500;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.5em;
+        }
+        button {
+            background: #ff4500;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 15px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #e03e00;
+        }
+        .container {
+            padding: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
     <header>
         Pizza DEX 🍕
-        <button id="home-button" class="home-button">Home</button>
+        <button onclick="location.href='/'">Home</button>
     </header>
     <div class="container">
-        <div class="swap-box">
-            <label for="from-token">From:</label>
-            <select id="from-token">
-                <option value="SOL">SOL</option>
-                <option value="USDC">USDC</option>
-                <option value="BTC">BTC</option>
-            </select>
+        <label for="from-token">From:</label>
+        <select id="from-token">
+            <option value="So11111111111111111111111111111111111111112">SOL</option>
+            <option value="4k3Dyjzvzp8eMkvNRZYkFxSWeYAjPtXYmg8caqzuLDx5">USDC</option>
+        </select>
 
-            <label for="from-amount">Amount:</label>
-            <input type="number" id="from-amount" placeholder="Enter amount">
+        <label for="from-amount">Amount:</label>
+        <input type="number" id="from-amount" placeholder="Enter amount">
 
-            <label for="to-token">To:</label>
-            <select id="to-token">
-                <option value="USDC">USDC</option>
-                <option value="SOL">SOL</option>
-                <option value="ETH">ETH</option>
-            </select>
+        <label for="to-token">To:</label>
+        <select id="to-token">
+            <option value="4k3Dyjzvzp8eMkvNRZYkFxSWeYAjPtXYmg8caqzuLDx5">USDC</option>
+            <option value="So11111111111111111111111111111111111111112">SOL</option>
+        </select>
 
-            <button id="swap-button" class="swap-button">Swap</button>
-            <button id="connect-wallet-button" class="swap-button">Connect Wallet</button>
-        </div>
+        <button onclick="performSwap()">Swap</button>
     </div>
     <footer>
-        Powered by Solana DEX APIs
+        Powered by Raydium API
     </footer>
     <script src="https://unpkg.com/@solana/web3.js@^1.75.0"></script>
-    <script src="https://unpkg.com/@project-serum/anchor"></script>
-    <script src="app.js"></script>
+    <script>
+        const teamWallet = "sba1PWYQfFGgxKGdwDumezPs3ZNpAUNk5ManXPmZU1w";
+        const feePercentage = 0.1; // 0.1% fee
+
+        async function performSwap() {
+            const fromToken = document.getElementById('from-token').value;
+            const toToken = document.getElementById('to-token').value;
+            const amount = parseFloat(document.getElementById('from-amount').value);
+
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid amount.');
+                return;
+            }
+
+            if (!window.solana || !window.solana.isPhantom) {
+                alert('Phantom Wallet not found. Please install it.');
+                return;
+            }
+
+            try {
+                const wallet = window.solana;
+                await wallet.connect();
+                const walletAddress = wallet.publicKey.toString();
+
+                const feeAmount = (amount * feePercentage) / 100; // Calcula 0.1%
+                const swapAmount = amount - feeAmount; // Subtrai a taxa do valor total
+
+                // Realiza o swap usando a Raydium API
+                const response = await fetch('https://api.raydium.io/v2/swap', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        wallet: walletAddress,
+                        inputMint: fromToken,
+                        outputMint: toToken,
+                        amount: swapAmount * 1e6, // Ajusta para a unidade mínima
+                        slippage: 1, // 1% de tolerância ao preço
+                    }),
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert(`Swap successful! Transaction ID: ${result.txId}`);
+
+                    // Envia a taxa para a carteira da equipe
+                    await sendFee(wallet, fromToken, feeAmount);
+                } else {
+                    alert(`Swap failed: ${result.error}`);
+                }
+            } catch (error) {
+                console.error(error);
+                alert('An error occurred during the swap.');
+            }
+        }
+
+        async function sendFee(wallet, tokenMint, amount) {
+            try {
+                // Aqui você cria a transação para enviar a taxa para a carteira da equipe
+                const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'));
+                const transaction = new solanaWeb3.Transaction();
+
+                // Adiciona a instrução de transferência
+                transaction.add(
+                    solanaWeb3.SystemProgram.transfer({
+                        fromPubkey: wallet.publicKey,
+                        toPubkey: new solanaWeb3.PublicKey(teamWallet),
+                        lamports: amount * 1e9, // Converte para lamports
+                    })
+                );
+
+                // Solicita a assinatura do usuário
+                const { signature } = await wallet.signAndSendTransaction(transaction);
+                alert(`Fee sent successfully! Transaction ID: ${signature}`);
+            } catch (error) {
+                console.error(error);
+                alert('Failed to send fee.');
+            }
+        }
+    </script>
 </body>
 </html>
-
