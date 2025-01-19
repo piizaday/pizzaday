@@ -103,11 +103,12 @@
             display: flex;
             justify-content: center;
             gap: 15px;
+            flex-wrap: wrap;
             margin-top: 20px;
         }
         .social a img {
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             transition: transform 0.2s;
         }
         .social a img:hover {
@@ -147,6 +148,22 @@
             margin-top: 10px;
             font-size: 1.2rem;
             color: #f7b32b;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+            }
+            .hero h2 {
+                font-size: 2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .tokenomics div {
+                flex: 1 1 100%;
+            }
         }
     </style>
 </head>
@@ -205,20 +222,20 @@
 
     <section id="community" class="section">
         <h3>Join the Community</h3>
-        <div class="social-links">
-        <a href="https://t.me/piizaday" target="_blank">
-            <img src="telegram.png" alt="Telegram">
-        </a>
-        <a href="https://x.com/piizzaday" target="_blank">
-            <img src="x.png" alt="X">
-        </a>
-        <a href="https://github.com/piizaday/pizzaday" target="_blank">
-            <img src="github.png" alt="GitHub">
-        </a>
-        <a href="https://www.instagram.com/memes.comunit" target="_blank">
-            <img src="instagram.png" alt="Instagram">
-        </a>
-    </div>
+        <div class="social">
+            <a href="https://t.me/piizaday" target="_blank">
+                <img src="telegram.png" alt="Telegram">
+            </a>
+            <a href="https://x.com/piizzaday" target="_blank">
+                <img src="x.png" alt="X">
+            </a>
+            <a href="https://github.com/piizaday/pizzaday" target="_blank">
+                <img src="github.png" alt="GitHub">
+            </a>
+            <a href="https://www.instagram.com/memes.comunit" target="_blank">
+                <img src="instagram.png" alt="Instagram">
+            </a>
+        </div>
     </section>
 
     <footer>
@@ -283,11 +300,11 @@
                 try {
                     const tokenAddress = "TOKEN_ADDRESS_HERE";
                     const result = await window.solana.request({
-                        method: "wallet_addAsset",
+                        method: "wallet_watchAsset",
                         params: {
-                            type: "ERC20", // Solana equivalent
-                            address: tokenAddress
-                        }
+                            type: "SPL",
+                            address: tokenAddress,
+                        },
                     });
                     alert('Token added to wallet!');
                 } catch (error) {
